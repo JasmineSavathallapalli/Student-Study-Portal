@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Pending Study Materials</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Uploaded By</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for material in materials %}
+    <tr>
+      <td>{{ material.title }}</td>
+      <td>{{ material.description }}</td>
+      <td>{{ material.uploaded_by.username }}</td>
+      <td>
+        <a href="{% url 'approve_material' material.id %}" class="btn btn-success btn-sm">Approve</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No pending materials.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

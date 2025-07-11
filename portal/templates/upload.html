@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Upload Material{% endblock %}
+{% block content %}
+<h2>Upload Study Material</h2>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label>Title</label>
+    <input type="text" name="title" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Description</label>
+    <textarea name="description" class="form-control" rows="3" required></textarea>
+  </div>
+  <div class="mb-3">
+    <label>File</label>
+    <input type="file" name="file" class="form-control" required>
+  </div>
+  <button type="submit" class="btn btn-success">Upload</button>
+</form>
+{% endblock %}

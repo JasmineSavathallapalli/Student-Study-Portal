@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<h2>Study Materials</h2>
+
+<!-- 🔍 Search Form -->
+<form method="GET" class="mb-3">
+  <div class="input-group">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search materials..." class="form-control">
+    <button type="submit" class="btn btn-primary">Search</button>
+  </div>
+</form>
+
+<table class="table table-bordered table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Uploaded By</th>
+      <th>Uploaded At</th>
+      <th>File</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for material in page_obj %}
+    <tr>
+      <td>{{ material.title }}</td>
+      <td>{{ material.description }}</td>
+      <td>{{ material.uploaded_by.username }}</td>
+      <td>{{ material.uploaded_at }}</td>
+      <td><a href="{{ material.file.url }}" class="btn btn-sm btn-info" download>Download</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">No materials found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Pagination Controls -->
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?q={{ query }}&page=1">&laquo; First</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+      </li>
+    {% endif %}
+
+    <li class="page-item disabled">
+      <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    </li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}
